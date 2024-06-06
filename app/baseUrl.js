@@ -1,3 +1,3 @@
 export const baseUrl = {
-    url : 'http://192.168.231.166:8888/api'
+    url : 'http://10.0.141.134:8888/api'
 }

@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
-import { Dashboard, Login, Main_page, Profile, Register, Scan } from './app/route';
+import { Dashboard, Login, Main_page, Profile, Register, Scan, Deskripsi_image } from './app/route';
 
 
 const Stack = createNativeStackNavigator();
@@ -80,6 +80,16 @@ function App() {
           headerShown : false,
           headerCustom:(props) => <hedarTitle {...props }/>,
           title:"MainPage",
+        }}
+        />
+      <Stack.Screen 
+        name="Deskripsi_image"
+        component={Deskripsi_image}
+        options={{
+          // ...headerOption,
+          headerShown : false,
+          headerCustom:(props) => <hedarTitle {...props }/>,
+          title:"DeskripsiImage",
         }}
         />
       {/* <Stack.Screen 
