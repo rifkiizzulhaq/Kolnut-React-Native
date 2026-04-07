@@ -1,79 +1,123 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Kolnut — Mobile App (React Native)
 
-# Getting Started
+**Kolnut** adalah aplikasi mobile Android untuk membantu pengguna dalam mengidentifikasi **jenis makanan** melalui kamera dan mendapatkan **tips serta rekomendasi gizi sehat** berbasis AI.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+Repositori ini adalah bagian **Frontend Mobile** dari ekosistem Kolnut, dibangun menggunakan **React Native 0.74**.
 
-## Step 1: Start the Metro Server
+---
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+## Arsitektur Proyek
 
-To start Metro, run the following command from the _root_ of your React Native project:
+Aplikasi ini adalah bagian dari ekosistem yang terdiri dari 3 komponen:
 
-```bash
-# using npm
-npm start
-
-# OR using Yarn
-yarn start
+```
+[Kolnut-React-Native (repo ini)]
+        |
+        | (HTTP via Axios)
+        ↓
+[Kolnut-Laravel — Backend API]
+        |
+        | (cURL ke AI Server)
+        ↓
+[Model-AI-Detection-Objek-Tensorflow — Python FastAPI]
 ```
 
-## Step 2: Start your Application
+---
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+## Fitur & Halaman
 
-### For Android
+| Halaman | Keterangan |
+|---|---|
+| **Main Page** | Halaman awal / splash screen |
+| **Login** | Halaman masuk akun pengguna |
+| **Register** | Halaman pendaftaran akun baru |
+| **Dashboard** | Halaman utama setelah login, menampilkan konten |
+| **Scan** | Kamera untuk mengambil gambar makanan dan mengirimnya ke AI |
+| **Deskripsi Image** | Menampilkan hasil klasifikasi dan detail dari gambar yang di-scan |
+| **Profile** | Halaman profil pengguna |
 
+---
+
+## Tech Stack
+
+- **Framework**: React Native 0.74
+- **Navigasi**: React Navigation (Stack + Bottom Tabs)
+- **HTTP Client**: Axios
+- **Storage**: AsyncStorage (untuk menyimpan token login)
+- **Image Picker**: react-native-image-picker (untuk akses kamera/galeri)
+- **Node.js**: >= 18
+
+---
+
+## Prasyarat
+
+Pastikan semua perangkat lunak berikut sudah terinstal sebelum menjalankan proyek:
+
+- **Node.js** >= 18 & **NPM**
+- **Java JDK 17** (wajib, versi lain tidak kompatibel)
+- **Android SDK** (via Android Studio atau Command Line Tools)
+- **ADB** (Android Debug Bridge) sudah ditambahkan ke PATH sistem
+- **HP Android** dengan USB Debugging aktif, atau emulator Android
+
+> Panduan lengkap setup environment React Native tersedia di: https://reactnative.dev/docs/environment-setup
+
+---
+
+## Setup & Instalasi
+
+### Langkah 1 — Install Dependensi
 ```bash
-# using npm
+npm install
+```
+
+### Langkah 2 — Konfigurasi Base URL API
+
+Buka file `app/baseUrl.js` dan sesuaikan IP address dengan IP lokal PC/Laptop Anda (cek dengan `ipconfig` di Windows):
+
+```js
+export const baseUrl = {
+    url: 'http://<IP-PC-ANDA>:8888/api'
+}
+```
+
+> Pastikan HP Android dan PC berada dalam jaringan WiFi yang **sama**.
+
+### Langkah 3 — Hubungkan HP Android
+
+1. Aktifkan **Developer Options** di HP Anda (ketuk "Build Number" 7x di pengaturan)
+2. Aktifkan **USB Debugging** di dalam Developer Options
+3. Hubungkan HP ke PC via kabel USB
+4. Verifikasi HP terdeteksi:
+```bash
+adb devices
+```
+HP Anda harus muncul dengan status `device` (bukan `unauthorized`).
+
+### Langkah 4 — Jalankan Aplikasi
+```bash
 npm run android
-
-# OR using Yarn
-yarn android
 ```
 
-### For iOS
+Proses build pertama kali akan memakan waktu beberapa menit. Setelah selesai, aplikasi akan otomatis terinstall dan terbuka di HP Anda.
 
-```bash
-# using npm
-npm run ios
+---
 
-# OR using Yarn
-yarn ios
-```
+## Koneksi ke Backend
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+Semua request API menggunakan `baseUrl` yang didefinisikan di `app/baseUrl.js`. Pastikan server **Kolnut-Laravel** sudah berjalan terlebih dahulu sebelum menggunakan aplikasi.
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+Lihat repositori [Kolnut-Laravel](../Kolnut-Laravel) untuk panduan menjalankan server backend.
 
-## Step 3: Modifying your App
+---
 
-Now that you have successfully run the app, let's modify it.
+## Tips Development
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+- Setelah menyimpan perubahan kode (`Ctrl+S`), aplikasi di HP akan otomatis *hot-reload*.
+- Untuk membuka **Developer Menu** di HP: goyangkan HP atau tekan `Ctrl+M` (Windows).
+- Untuk debug log: buka terminal Metro yang berjalan di background.
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+---
 
-## Congratulations! :tada:
+## Lisensi
 
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+Proyek ini menggunakan lisensi [MIT License](https://opensource.org/licenses/MIT).
